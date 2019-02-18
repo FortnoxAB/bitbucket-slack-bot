@@ -4,7 +4,7 @@ This bot tries its best to only send messages about pull requests that can be ac
 For example notify author if we have at least 2 approvers. 
 
 TODO:
-Implement canmerge check using read only api user
+Implement canmerge check using read only api user ([merge.go](models/merge.go) )
 
 # Setup
 
