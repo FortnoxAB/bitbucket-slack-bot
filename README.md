@@ -1,6 +1,10 @@
 # bitbucket-slack-bot
-A bot to send alertmanager notifications to slack to reduce webhook configuration overhead. 
-Just setup the api_url in slack_config in alertmanager to your running instance with path: /webhook
+
+This bot tries its best to only send messages about pull requests that can be act apon.
+For example notify author if we have at least 2 approvers. 
+
+TODO:
+Implement canmerge check using read only api user
 
 # Setup
 
