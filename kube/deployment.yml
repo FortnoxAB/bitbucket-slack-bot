@@ -55,10 +55,26 @@ spec:
             value: "json"
           - name: CONFIG_LOG_LEVEL
             value: "error"
+          - name: CONFIG_BITBUCKETURL
+            valueFrom:
+              configMapKeyRef:
+                name: bitbucket-slack-bot
+                key: bitbucket.url
+          - name: CONFIG_BITBUCKETUSER
+            valueFrom:
+              secretKeyRef:
+                name: bitbucket-slack-bot
+                key: bitbucket.username
+          - name: CONFIG_BITBUCKETPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: bitbucket-slack-bot
+                key: bitbucket.password
           - name: CONFIG_TOKEN
             valueFrom:
               secretKeyRef:
                 name: bitbucket-slack-bot
-                key: token
+                key: slack.token
+
 
 

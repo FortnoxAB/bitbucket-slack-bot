@@ -31,7 +31,9 @@ func main() {
 	}
 
 	rtm := s.NewRTM()
-	notifier := service.NewNotifier(s, rtm)
+
+	bitbucket := service.NewBitbucket(config)
+	notifier := service.NewNotifier(s, rtm, bitbucket)
 	ws := webserver.New(notifier)
 	ws.Prometheus = ginprometheus.New("http")
 

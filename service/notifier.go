@@ -10,14 +10,16 @@ import (
 )
 
 type Notifier struct {
-	RTM   *slack.RTM
-	Slack *slack.Client
+	RTM       *slack.RTM
+	Slack     *slack.Client
+	Bitbucket *Bitbucket
 }
 
-func NewNotifier(s *slack.Client, rtm *slack.RTM) *Notifier {
+func NewNotifier(s *slack.Client, rtm *slack.RTM, bitbucket *Bitbucket) *Notifier {
 	return &Notifier{
-		RTM:   rtm,
-		Slack: s,
+		RTM:       rtm,
+		Slack:     s,
+		Bitbucket: bitbucket,
 	}
 }
 
@@ -34,7 +36,7 @@ func (n *Notifier) ProcessWebhook(b *models.WebhookBody) error {
 				logrus.Error(err)
 				return nil
 			}
-			_, _, err = n.Slack.PostMessage(u.ID, b.FormatMessage(fmt.Sprintf("has %d/%d approvals", b.ApprovedCount(), len(b.PullRequest.Reviewers)), "opened pull request")...)
+			_, _, err = n.Slack.PostMessage(u.ID, b.FormatMessage("Is waiting for your review.", "opened pull request")...)
 			if err != nil {
 				logrus.Error(err)
 				return nil
@@ -68,16 +70,25 @@ func (n *Notifier) ProcessWebhook(b *models.WebhookBody) error {
 		}
 		_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(fmt.Sprintf("has %d/%d approvals", b.ApprovedCount(), len(b.PullRequest.Reviewers)), "unapproved")...)
 		return err
-	// message to AUTHOR if at least 2 approved
+	// message to AUTHOR if it can be merged
 	case "pr:reviewer:approved":
-		if b.ApprovedCount() >= 2 {
-			user, err := n.Slack.GetUserByEmail(b.PullRequest.Author.User.EmailAddress)
-			if err != nil {
-				return err
-			}
-			_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(fmt.Sprintf("has %d/%d approvals", b.ApprovedCount(), len(b.PullRequest.Reviewers)), "approved")...)
+		merge, err := n.Bitbucket.CanMerge(b.ID())
+		if err != nil {
+			logrus.Error(err)
+		}
+		if !merge.CanMerge && err == nil {
+			return nil
+		}
+		user, err := n.Slack.GetUserByEmail(b.PullRequest.Author.User.EmailAddress)
+		if err != nil {
 			return err
 		}
+		if merge.CanMerge {
+			_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(fmt.Sprintf("has %d/%d approvals and can me merged now.", b.ApprovedCount(), len(b.PullRequest.Reviewers)), "approved")...)
+		} else {
+			_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(fmt.Sprintf("has %d/%d approvals", b.ApprovedCount(), len(b.PullRequest.Reviewers)), "approved")...)
+		}
+		return err
 	case "pr:comment:added":
 		return n.prCommentAdded(b)
 
@@ -89,28 +100,31 @@ func (n *Notifier) prCommentAdded(b *models.WebhookBody) error {
 	// If mention. Also notify the person mentioned
 	matches := rex.FindAllStringSubmatch(b.Comment.Text, -1)
 	for _, match := range matches {
-		if len(match) == 2 {
+		if len(match) != 2 {
+			continue
+		}
+		mentionedUsername := match[1]
 
-			if match[1] == b.Actor.Name { // Skip notifying yourself
-				logrus.Debug("Skip notifying yourself")
-				continue
-			}
-			if match[1] == b.PullRequest.Author.User.Name { // Skip notifying author (notified above)
-				logrus.Debug("Skip notifying author")
-				continue
-			}
+		if mentionedUsername == b.Actor.Name { // Skip notifying yourself
+			logrus.Debug("Skip notifying yourself")
+			continue
+		}
+		if mentionedUsername == b.PullRequest.Author.User.Name { // Skip notifying author (notified below anyways)
+			logrus.Debug("Skip notifying author")
+			continue
+		}
 
-			//TODO make this domain configurable
-			user, err := n.Slack.GetUserByEmail(match[1] + "@fortnox.se")
-			if err != nil {
-				return err
-			}
-			_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(fmt.Sprintf("%s", b.Comment.Text), "mentioned you in comment")...)
-			if err != nil {
-				return err
-			}
+		//TODO make this domain configurable
+		user, err := n.Slack.GetUserByEmail(mentionedUsername + "@fortnox.se")
+		if err != nil {
+			return err
+		}
+		_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(fmt.Sprintf("%s", b.Comment.Text), "mentioned you in comment")...)
+		if err != nil {
+			return err
 		}
 	}
+
 	if b.Actor.Name == b.PullRequest.Author.User.Name { // dont notify yourself
 		logrus.Debug("Skip notifying author is same as actor")
 		return nil

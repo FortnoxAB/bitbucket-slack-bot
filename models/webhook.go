@@ -116,10 +116,17 @@ func (w WebhookBody) ApprovedCount() int {
 func (w WebhookBody) GetPrURL() string {
 	u := fmt.Sprintf("https://git.fnox.se/projects/%s/repos/%s/pull-requests/%d/overview",
 		w.PullRequest.ToRef.Repository.Project.Key,
-		w.PullRequest.ToRef.Repository.Name,
+		w.PullRequest.ToRef.Repository.Slug,
 		w.PullRequest.ID,
 	)
 	return u
+}
+
+// ID can be used to send into functions that needs the uniqu path to the exact pull request
+func (w WebhookBody) ID() (string, string, int) {
+	return w.PullRequest.ToRef.Repository.Project.Key,
+		w.PullRequest.ToRef.Repository.Slug,
+		w.PullRequest.ID
 }
 
 func (w WebhookBody) FormatMessage(msg string, action string) []slack.MsgOption {
