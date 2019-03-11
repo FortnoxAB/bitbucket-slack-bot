@@ -13,5 +13,4 @@ node('deploy-kubernetes'){
 			sh 'fnxctl deploy '+tag
 		}
 	}
-
 }
