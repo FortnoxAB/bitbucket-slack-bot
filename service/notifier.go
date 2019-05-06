@@ -63,13 +63,6 @@ func (n *Notifier) ProcessWebhook(b *models.WebhookBody) error {
 		}
 		_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(fmt.Sprintf("has %d/%d approvals", b.ApprovedCount(), len(b.PullRequest.Reviewers)), "said needs work")...)
 		return err
-	case "pr:reviewer:unapproved":
-		user, err := n.Slack.GetUserByEmail(b.PullRequest.Author.User.EmailAddress)
-		if err != nil {
-			return err
-		}
-		_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(fmt.Sprintf("has %d/%d approvals", b.ApprovedCount(), len(b.PullRequest.Reviewers)), "unapproved")...)
-		return err
 	// message to AUTHOR if it can be merged
 	case "pr:reviewer:approved":
 		merge, err := n.Bitbucket.CanMerge(b.ID())
