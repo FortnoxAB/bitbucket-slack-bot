@@ -3,8 +3,6 @@
 This bot tries its best to only send messages about pull requests that can be act apon.
 For example notify author if we have at least 2 approvers. 
 
-TODO:
-Implement canmerge check using read only api user ([merge.go](models/merge.go) )
 
 # Setup
 
@@ -14,8 +12,16 @@ Configure webhooks for your repo to go to `http://bot-url/webhook`. All event's 
 
 ```
 Usage of bitbucket-slack-bot:
+  -bitbucketpassword
+    	Change value of BitbucketPassword.
+  -bitbucketurl
+    	Change value of BitbucketURL.
+  -bitbucketuser
+    	Change value of BitbucketUser.
   -log-format
-    	Change value of Log-Format. (default <nil>)
+    	Change value of Log-Format. (default text)
+  -log-formatter
+    	Change value of Log-Formatter. (default <nil>)
   -log-level
     	Change value of Log-Level.
   -port
@@ -24,7 +30,11 @@ Usage of bitbucket-slack-bot:
     	Change value of Token.
 
 Generated environment variables:
+   CONFIG_BITBUCKETPASSWORD
+   CONFIG_BITBUCKETURL
+   CONFIG_BITBUCKETUSER
    CONFIG_LOG_FORMAT
+   CONFIG_LOG_FORMATTER
    CONFIG_LOG_LEVEL
    CONFIG_PORT
    CONFIG_TOKEN
