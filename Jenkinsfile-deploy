@@ -1,16 +1,34 @@
 library 'whatsout'
 
-node('deploy-kubernetes'){
-	stage( 'Checkout'){
-		checkout scm
-	}
-	def gitTag = "${GIT_TAG}"
-	def credId = "${CLUSTER_CREDENTIALS}"
-	def cluster = "${CLUSTER}"
-	tag = gitTag.replaceFirst('v', '')
-	wrap([$class: 'KubectlBuildWrapper', serverUrl: cluster, credentialsId: credId ]) {
-		stage('backend') {
-			sh 'fnxctl deploy '+tag
+node('deploy-gitops'){
+	container('run'){
+		stage( 'Checkout'){
+			checkout scm
 		}
+		def gitTag = "${GIT_TAG}"
+		tag = gitTag.replaceFirst('v', '')
+		if(params.ENVIRONMENT) {
+			wrap([$class: 'BuildUser']) {
+				sshagent(credentials: ['gitops']) {
+					stage('backend') {
+						sh( "fnxctl deploy --method=gitops --env='${params.ENVIRONMENT}' ${tag}")
+					}
+
+				}
+			}
+			env = params.ENVIRONMENT
+		} else{
+			def credId = "${CLUSTER_CREDENTIALS}"
+			def cluster = "${CLUSTER}"
+			wrap([$class: 'KubectlBuildWrapper', serverUrl: cluster, credentialsId: credId ]) {
+				stage('backend'){
+					sh( "fnxctl deploy ${tag}")
+				}
+
+				env = sh(script: 'kubectl get configmap route -o go-template --template="{{ .data.environment }}"', returnStdout: true).trim()
+			}
+		}
+
+		setDeployed(tag, 'bitbucket-slack-bot', 'bitbucket-slack-bot', env)
 	}
 }
