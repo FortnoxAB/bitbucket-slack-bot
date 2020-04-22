@@ -36,7 +36,7 @@ func (n *Notifier) ProcessWebhook(b *models.WebhookBody) error {
 				logrus.Error(err)
 				return nil
 			}
-			_, _, err = n.Slack.PostMessage(u.ID, b.FormatMessage("Is waiting for your review.", "opened pull request")...)
+			_, _, err = n.Slack.PostMessage(u.ID, b.FormatMessage("is waiting for your review.", "opened pull request")...)
 			if err != nil {
 				logrus.Error(err)
 				return nil
@@ -77,7 +77,7 @@ func (n *Notifier) ProcessWebhook(b *models.WebhookBody) error {
 			return err
 		}
 		if merge.CanMerge {
-			_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(fmt.Sprintf("has %d/%d approvals and can me merged now.", b.ApprovedCount(), len(b.PullRequest.Reviewers)), "approved")...)
+			_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(fmt.Sprintf("has %d/%d approvals and can be merged now.", b.ApprovedCount(), len(b.PullRequest.Reviewers)), "approved")...)
 		} else {
 			_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(fmt.Sprintf("has %d/%d approvals", b.ApprovedCount(), len(b.PullRequest.Reviewers)), "approved")...)
 		}
