@@ -1,28 +1,16 @@
-node('go') {
-	def newTag = ''
-	def tag = ''
-	def gitTag = ''
+node('go1.13') {
+	container('run'){
+		def tag = ''
 
-	try {
-		stage('Checkout'){
-			dir('/go/src/github.com/fortnoxab/bitbucket-slack-bot'){
-				checkout scm
-				notifyBitbucket()
-				gitTag = sh(script: 'git tag -l --contains HEAD', returnStdout: true).trim()
+		try {
+			stage('Checkout'){
+					checkout scm
+					notifyBitbucket()
+					tag = sh(script: 'git tag -l --contains HEAD', returnStdout: true).trim()
 			}
-		}
 
-		dir('/go/src/github.com/fortnoxab/bitbucket-slack-bot'){
-
-			stage('Fetch dependencies'){
-				sh('dep ensure -v -vendor-only')
-			}
 			stage('Run test'){
 				sh('go test -v ./...')
-			}
-
-			if(gitTag != ''){
-				tag = gitTag
 			}
 
 			if( tag != ''){
@@ -42,15 +30,15 @@ node('go') {
 					}
 				}
 			}
+
+			currentBuild.result = 'SUCCESS'
+		} catch(err) {
+			currentBuild.result = 'FAILED'
+			notifyBitbucket()
+			throw err
 		}
 
-		currentBuild.result = 'SUCCESS'
-	} catch(err) {
-		currentBuild.result = 'FAILED'
 		notifyBitbucket()
-		throw err
 	}
-
-	notifyBitbucket()
 }
 
