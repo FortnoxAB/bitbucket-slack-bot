@@ -25,16 +25,15 @@ func NewNotifier(s *slack.Client, rtm *slack.RTM, bitbucket *Bitbucket) *Notifie
 
 var rex = regexp.MustCompile(`@"(.+?)"`)
 
-// ProcessWebhook is called when we get a new webhook request from bitbucket with a body
+// ProcessWebhook is called when we get a new webhook request from bitbucket with a body.
 func (n *Notifier) ProcessWebhook(b *models.WebhookBody) error {
-
 	switch b.EventKey {
-	case "pr:opened": //Notify all current reviewers
+	case "pr:opened": // Notify all current reviewers
 		for _, reviewer := range b.PullRequest.Reviewers {
 			u, err := n.Slack.GetUserByEmail(reviewer.User.EmailAddress)
 			if err != nil {
-				logrus.Error(err)
-				return nil
+				logrus.Errorf("error fetching %s from slack: %s", reviewer.User.EmailAddress, err)
+				continue
 			}
 			_, _, err = n.Slack.PostMessage(u.ID, b.FormatMessage("is waiting for your review.", "opened pull request")...)
 			if err != nil {
@@ -46,8 +45,8 @@ func (n *Notifier) ProcessWebhook(b *models.WebhookBody) error {
 		for _, user := range b.AddedReviewers {
 			u, err := n.Slack.GetUserByEmail(user.EmailAddress)
 			if err != nil {
-				logrus.Error(err)
-				return nil
+				logrus.Errorf("error fetching %s from slack: %s", user.EmailAddress, err)
+				continue
 			}
 			_, _, err = n.Slack.PostMessage(u.ID, b.FormatMessage(fmt.Sprintf("has %d/%d approvals", b.ApprovedCount(), len(b.PullRequest.Reviewers)), "added you as reviewer")...)
 			if err != nil {
@@ -84,7 +83,6 @@ func (n *Notifier) ProcessWebhook(b *models.WebhookBody) error {
 		return err
 	case "pr:comment:added":
 		return n.prCommentAdded(b)
-
 	}
 	return nil
 }
@@ -107,12 +105,12 @@ func (n *Notifier) prCommentAdded(b *models.WebhookBody) error {
 			continue
 		}
 
-		//TODO make this domain configurable
+		// TODO make this domain configurable
 		user, err := n.Slack.GetUserByEmail(mentionedUsername + "@fortnox.se")
 		if err != nil {
 			return err
 		}
-		_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(fmt.Sprintf("%s", b.Comment.Text), "mentioned you in comment")...)
+		_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(b.Comment.Text, "mentioned you in comment")...)
 		if err != nil {
 			return err
 		}
@@ -126,9 +124,8 @@ func (n *Notifier) prCommentAdded(b *models.WebhookBody) error {
 	if err != nil {
 		return err
 	}
-	_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(fmt.Sprintf("%s", b.Comment.Text), "commented")...)
+	_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(b.Comment.Text, "commented")...)
 	return err
-
 }
 
 func (n *Notifier) getIMByEmail(email string) (string, error) {

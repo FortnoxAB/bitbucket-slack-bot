@@ -7,10 +7,11 @@ import (
 )
 
 type WebhookBody struct {
-	EventKey    string `json:"eventKey"`
-	Date        string `json:"date"`
-	Actor       User   `json:"actor"`
-	PullRequest struct {
+	BitbucketURL string `json:"bitbucketURL"`
+	EventKey     string `json:"eventKey"`
+	Date         string `json:"date"`
+	Actor        User   `json:"actor"`
+	PullRequest  struct {
 		ID          int    `json:"id"`
 		Version     int    `json:"version"`
 		Title       string `json:"title"`
@@ -71,6 +72,7 @@ type User struct {
 	Slug         string `json:"slug"`
 	Type         string `json:"type"`
 }
+
 type Participant struct {
 	User               User   `json:"user"`
 	LastReviewedCommit string `json:"lastReviewedCommit"`
@@ -102,8 +104,6 @@ type Ref struct {
 	} `json:"repository"`
 }
 
-//https://git.fnox.se/projects/FNX/repos/golibs/pull-requests/3/overview
-
 func (w WebhookBody) ApprovedCount() int {
 	approvedCount := 0
 	for _, v := range w.PullRequest.Reviewers {
@@ -113,8 +113,10 @@ func (w WebhookBody) ApprovedCount() int {
 	}
 	return approvedCount
 }
+
 func (w WebhookBody) GetPrURL() string {
-	u := fmt.Sprintf("https://git.fnox.se/projects/%s/repos/%s/pull-requests/%d/overview",
+	u := fmt.Sprintf("%s/projects/%s/repos/%s/pull-requests/%d/overview",
+		w.BitbucketURL,
 		w.PullRequest.ToRef.Repository.Project.Key,
 		w.PullRequest.ToRef.Repository.Slug,
 		w.PullRequest.ID,
@@ -122,7 +124,7 @@ func (w WebhookBody) GetPrURL() string {
 	return u
 }
 
-// ID can be used to send into functions that needs the uniqu path to the exact pull request
+// ID can be used to send into functions that needs the uniqu path to the exact pull request.
 func (w WebhookBody) ID() (string, string, int) {
 	return w.PullRequest.ToRef.Repository.Project.Key,
 		w.PullRequest.ToRef.Repository.Slug,
@@ -130,15 +132,13 @@ func (w WebhookBody) ID() (string, string, int) {
 }
 
 func (w WebhookBody) FormatMessage(msg string, action string) []slack.MsgOption {
-
-	color := "#36a64f" //green
+	color := "#36a64f" // green
 
 	switch w.EventKey {
 	case "pr:reviewer:unapproved":
 		color = "#F34343"
 	case "pr:reviewer:needs_work":
 		color = "#B8C043"
-
 	}
 
 	attachment := slack.Attachment{
@@ -157,7 +157,7 @@ func (w WebhookBody) FormatMessage(msg string, action string) []slack.MsgOption 
 	}
 
 	return []slack.MsgOption{
-		//slack.MsgOptionText(msg, false),
+		// slack.MsgOptionText(msg, false),
 		slack.MsgOptionAttachments(attachment),
 		slack.MsgOptionAsUser(true),
 	}

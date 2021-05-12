@@ -19,7 +19,6 @@ func NewBitbucket(config *config.Config) *Bitbucket {
 	return &Bitbucket{
 		Config: config,
 	}
-
 }
 
 func (b *Bitbucket) CanMerge(project, repoSlug string, prID int) (models.Merge, error) {

@@ -47,11 +47,9 @@ func main() {
 	logrus.Error(srv.ListenAndServe())
 	cancel()
 	<-shutdown
-
 }
 
 func rtmWorker(ctx context.Context, rtm *slack.RTM) {
-
 	go rtm.ManageConnection()
 	for {
 		select {
@@ -61,10 +59,8 @@ func rtmWorker(ctx context.Context, rtm *slack.RTM) {
 			return
 		case msg := <-rtm.IncomingEvents:
 			processEvent(rtm, msg)
-
 		}
 	}
-
 }
 
 var slackInfo *slack.Info
@@ -80,11 +76,9 @@ func mentionedMe(msg string) bool {
 		return true
 	}
 	return false
-
 }
 
 func processEvent(rtm *slack.RTM, event slack.RTMEvent) {
-
 	switch msg := event.Data.(type) {
 	case *slack.HelloEvent:
 		// Ignore hello

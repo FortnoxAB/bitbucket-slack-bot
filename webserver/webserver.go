@@ -16,16 +16,15 @@ type webserver struct {
 	Prometheus *ginprometheus.Prometheus
 }
 
-//New webserver
+// New webserver.
 func New(n *service.Notifier) *webserver {
 	return &webserver{
 		Notifier: n,
 	}
 }
 
-//Init a webserver with Gin
+// Init a webserver with Gin.
 func (ws *webserver) Init() *gin.Engine {
-
 	router := gin.New()
 
 	if ws.Prometheus != nil {
@@ -51,7 +50,8 @@ func (ws *webserver) handleWebhook(c *gin.Context) error {
 		return err
 	}
 
-	//logrus.Info("body", body)
+	body.BitbucketURL = ws.Notifier.Bitbucket.Config.BitbucketURL
+	// logrus.Info("body", body)
 	return ws.Notifier.ProcessWebhook(body)
 }
 
