@@ -141,24 +141,22 @@ func (w WebhookBody) FormatMessage(msg string, action string) []slack.MsgOption 
 		color = "#B8C043"
 	}
 
+	project := w.PullRequest.ToRef.Repository.Project.Key
+	repoSlug := w.PullRequest.ToRef.Repository.Slug
+	repoAsUsername := fmt.Sprintf("%s (%s) bitbucket", repoSlug, project)
+
+	title := fmt.Sprintf("PR #%d: %s", w.PullRequest.ID, w.PullRequest.Title)
+
 	attachment := slack.Attachment{
-		Title:      w.PullRequest.Title,
-		Text:       msg,
 		Color:      color,
+		Text:       msg,
+		Title:      title,
 		TitleLink:  w.GetPrURL(),
 		AuthorName: w.Actor.DisplayName + " " + action,
-		Actions: []slack.AttachmentAction{
-			{
-				Type: "button",
-				URL:  w.GetPrURL(),
-				Text: "Open",
-			},
-		},
 	}
 
 	return []slack.MsgOption{
-		// slack.MsgOptionText(msg, false),
 		slack.MsgOptionAttachments(attachment),
-		slack.MsgOptionAsUser(true),
+		slack.MsgOptionUsername(repoAsUsername),
 	}
 }
