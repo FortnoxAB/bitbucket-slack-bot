@@ -142,9 +142,9 @@ func (w WebhookBody) FormatMessage(msg string, action string) []slack.MsgOption 
 	}
 
 	authorName := fmt.Sprintf(
-		"%s (%s)\n%s %s",
-		w.PullRequest.ToRef.Repository.Project.Key,
+		"%s (%s) %s %s",
 		w.PullRequest.ToRef.Repository.Slug,
+		w.PullRequest.ToRef.Repository.Project.Key,
 		w.Actor.DisplayName,
 		action,
 	)
