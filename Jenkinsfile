@@ -1,4 +1,4 @@
-node('go1.17') {
+node('go1.23') {
 	container('run'){
 		def tag = ''
 
