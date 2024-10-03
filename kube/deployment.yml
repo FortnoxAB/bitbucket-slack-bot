@@ -41,13 +41,6 @@ spec:
             scheme: HTTP
           initialDelaySeconds: 3
           timeoutSeconds: 5
-        resources:
-          limits:
-            cpu: 200m
-            memory: 100Mi
-          requests:
-            cpu: 200m
-            memory: 100Mi
         ports:
         - containerPort: 8080
         env:
