@@ -1,6 +1,6 @@
 module github.com/fortnoxab/bitbucket-slack-bot
 
-go 1.17
+go 1.18
 
 require (
 	github.com/fortnoxab/fnxlogrus v0.0.0-20181213065106-cbb7cf837eba

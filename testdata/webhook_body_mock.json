@@ -1,0 +1,155 @@
+{
+  "bitbucketURL": "https://bitbucket.example.com",
+  "eventKey": "pr:comment:added",
+  "date": "2025-06-06T12:34:56Z",
+  "actor": {
+    "name": "PreviousThreadCommenter2",
+    "emailAddress": "thread.commenter2@example.com",
+    "id": 101,
+    "displayName": "PreviousThreadCommenter2",
+    "active": true,
+    "slug": "PreviousThreadCommenter2",
+    "type": "NORMAL"
+  },
+  "pullRequest": {
+    "id": 42,
+    "version": 1,
+    "title": "Add feature XYZ",
+    "description": "This pull request adds feature XYZ.",
+    "state": "OPEN",
+    "open": true,
+    "closed": false,
+    "createdDate": 1717651200000,
+    "updatedDate": 1717654800000,
+    "locked": false,
+    "toRef": {
+      "id": "refs/heads/main",
+      "displayId": "main",
+      "latestCommit": "abcdef1234567890",
+      "repository": {
+        "slug": "my-repo",
+        "id": 1,
+        "name": "My Repository",
+        "scmId": "git",
+        "state": "AVAILABLE",
+        "statusMessage": "Available",
+        "forkable": true,
+        "project": {
+          "key": "PRJ",
+          "id": 99,
+          "name": "My Project",
+          "public": false,
+          "type": "NORMAL"
+        },
+        "public": false
+      }
+    },
+    "fromRef": {
+      "id": "refs/heads/feature/xyz",
+      "displayId": "feature/xyz",
+      "latestCommit": "123456abcdef7890",
+      "repository": {
+        "slug": "my-repo",
+        "id": 1,
+        "name": "My Repository",
+        "scmId": "git",
+        "state": "AVAILABLE",
+        "statusMessage": "Available",
+        "forkable": true,
+        "project": {
+          "key": "PRJ",
+          "id": 99,
+          "name": "My Project",
+          "public": false,
+          "type": "NORMAL"
+        },
+        "public": false
+      }
+    },
+    "author": {
+      "user": {
+        "name": "Pr Author",
+        "emailAddress": "pr.author@example.com",
+        "id": 101,
+        "displayName": "Pr Author",
+        "active": true,
+        "slug": "prauthor",
+        "type": "NORMAL"
+      },
+      "role": "AUTHOR",
+      "approved": false,
+      "status": "UNAPPROVED"
+    },
+    "reviewers": [
+      {
+        "user": {
+          "name": "asmith",
+          "emailAddress": "asmith@example.com",
+          "id": 102,
+          "displayName": "Alice Smith",
+          "active": true,
+          "slug": "asmith",
+          "type": "NORMAL"
+        },
+        "lastReviewedCommit": "abcdef1234567890",
+        "role": "REVIEWER",
+        "approved": true,
+        "status": "APPROVED"
+      }
+    ],
+    "participants": []
+  },
+  "comment": {
+    "properties": {
+      "repositoryId": 242
+    },
+    "id": 1004,
+    "version": 0,
+    "text": "Third and NEW comment in thread!",
+    "author": {
+      "name": "thread.commenter3",
+      "emailAddress": "thread.commenter3@example.com",
+      "active": true,
+      "displayName": "Thread Commenter3",
+      "id": 334,
+      "slug": "thread.commenter3",
+      "type": "NORMAL",
+      "links": {
+        "self": [
+          {
+            "href": "https://git.some-company.se/users/thread.commenter3"
+          }
+        ]
+      }
+    },
+    "createdDate": 1748954698961,
+    "updatedDate": 1748954698961,
+    "comments": [],
+    "threadResolved": true,
+    "severity": "NORMAL",
+    "state": "OPEN",
+    "permittedOperations": {
+      "editable": false,
+      "transitionable": true,
+      "deletable": false
+    }
+  },
+  "participant": {
+    "user": {
+      "name": "asmith",
+      "emailAddress": "asmith@example.com",
+      "id": 102,
+      "displayName": "Alice Smith",
+      "active": true,
+      "slug": "asmith",
+      "type": "NORMAL"
+    },
+    "lastReviewedCommit": "abcdef1234567890",
+    "role": "REVIEWER",
+    "approved": true,
+    "status": "APPROVED"
+  },
+  "previousStatus": "UNAPPROVED",
+  "addedReviewers": [],
+  "removedReviewers": []
+}

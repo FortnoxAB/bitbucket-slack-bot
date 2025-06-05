@@ -1,0 +1,933 @@
+{
+  "size": 25,
+  "limit": 25,
+  "isLastPage": true,
+  "values": [
+    {
+      "id": 5702638,
+      "createdDate": 1748938768880,
+      "user": {
+        "name": "pr.author",
+        "emailAddress": "pr.author@example.com",
+        "active": true,
+        "displayName": "Pr Author",
+        "id": 1357,
+        "slug": "pr.author",
+        "type": "NORMAL",
+        "links": {
+          "self": [
+            {
+              "href": "https://git.some-company.se/users/pr.author"
+            }
+          ]
+        }
+      },
+      "action": "COMMENTED",
+      "commentAction": "ADDED",
+      "comment": {
+        "properties": {
+          "repositoryId": 242
+        },
+        "id": 1001,
+        "version": 1,
+        "text": "First comment in thread, by Pr Author!",
+        "author": {
+          "name": "thread.commenter1",
+          "emailAddress": "thread.commenter1@example.com",
+          "active": true,
+          "displayName": "Thread Commenter1",
+          "id": 1357,
+          "slug": "thread.commenter1",
+          "type": "NORMAL",
+          "links": {
+            "self": [
+              {
+                "href": "https://git.some-company.se/users/thread.commenter1"
+              }
+            ]
+          }
+        },
+        "createdDate": 1748938768878,
+        "updatedDate": 1748938768878,
+        "comments": [
+          {
+            "properties": {
+              "repositoryId": 242
+            },
+            "id": 1002,
+            "version": 1,
+            "text": "Second comment in thread by ThreadCommenter1!",
+            "author": {
+              "name": "thread.commenter1",
+              "emailAddress": "thread.commenter1@example.com",
+              "active": true,
+              "displayName": "Thread Commenter1",
+              "id": 1357,
+              "slug": "thread.commenter1",
+              "type": "NORMAL",
+              "links": {
+                "self": [
+                  {
+                    "href": "https://git.some-company.se/users/thread.commenter1"
+                  }
+                ]
+              }
+            },
+            "createdDate": 1748938768878,
+            "updatedDate": 1748938768878,
+            "comments": [
+              {
+                "properties": {
+                  "repositoryId": 242
+                },
+                "id": 1003,
+                "version": 0,
+                "text": "Third comment in thread by ThreadCommenter2!",
+                "author": {
+                  "name": "thread.commenter2",
+                  "emailAddress": "thread.commenter2@example.com",
+                  "active": true,
+                  "displayName": "Thread Commenter2",
+                  "id": 334,
+                  "slug": "thread.commenter2",
+                  "type": "NORMAL",
+                  "links": {
+                    "self": [
+                      {
+                        "href": "https://git.some-company.se/users/thread.commenter2"
+                      }
+                    ]
+                  }
+                },
+                "createdDate": 1748954698961,
+                "updatedDate": 1748954698961,
+                "comments": [
+                  {
+                    "properties": {
+                      "repositoryId": 242
+                    },
+                    "id": 1004,
+                    "version": 0,
+                    "text": "Forth and NEW comment in thread!",
+                    "author": {
+                      "name": "thread.commenter3",
+                      "emailAddress": "thread.commenter3@example.com",
+                      "active": true,
+                      "displayName": "Thread Commenter3",
+                      "id": 334,
+                      "slug": "thread.commenter3",
+                      "type": "NORMAL",
+                      "links": {
+                        "self": [
+                          {
+                            "href": "https://git.some-company.se/users/thread.commenter3"
+                          }
+                        ]
+                      }
+                    },
+                    "createdDate": 1748954698961,
+                    "updatedDate": 1748954698961,
+                    "comments": [],
+                    "threadResolved": true,
+                    "severity": "NORMAL",
+                    "state": "OPEN",
+                    "permittedOperations": {
+                      "editable": false,
+                      "transitionable": true,
+                      "deletable": false
+                    }
+                  }
+                ],
+                "threadResolved": true,
+                "severity": "NORMAL",
+                "state": "OPEN",
+                "permittedOperations": {
+                  "editable": false,
+                  "transitionable": true,
+                  "deletable": false
+                }
+              }
+            ],
+            "threadResolved": true,
+            "severity": "BLOCKER",
+            "state": "RESOLVED",
+            "permittedOperations": {
+              "editable": true,
+              "transitionable": true,
+              "deletable": true
+            },
+            "resolvedDate": 1748955233636,
+            "resolver": {
+              "name": "thread.commenter1",
+              "emailAddress": "thread.commenter1@example.com",
+              "active": true,
+              "displayName": "Thread Commenter1",
+              "id": 1357,
+              "slug": "thread.commenter1",
+              "type": "NORMAL",
+              "links": {
+                "self": [
+                  {
+                    "href": "https://git.some-company.se/users/thread.commenter1"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "threadResolved": true,
+        "severity": "BLOCKER",
+        "state": "RESOLVED",
+        "permittedOperations": {
+          "editable": true,
+          "transitionable": true,
+          "deletable": true
+        },
+        "resolvedDate": 1748955233636
+      },
+
+      "commentAnchor": {
+        "fromHash": "a8b0f5c82524fc8a2f9a01370f795df4bd46472b",
+        "toHash": "e19f982b9d914df1f565b45c22bb7ffbea163b57",
+        "line": 12,
+        "lineType": "ADDED",
+        "fileType": "TO",
+        "path": "ui/src/features/customer-rating/components/CustomerRating.tsx",
+        "diffType": "EFFECTIVE",
+        "orphaned": false
+      },
+      "diff": {
+        "source": null,
+        "destination": {
+          "components": [
+            "ui",
+            "src",
+            "features",
+            "customer-rating",
+            "components",
+            "CustomerRating.tsx"
+          ],
+          "parent": "ui/src/features/customer-rating/components",
+          "name": "CustomerRating.tsx",
+          "extension": "tsx",
+          "toString": "ui/src/features/customer-rating/components/CustomerRating.tsx"
+        },
+        "hunks": [
+          {
+            "sourceLine": 4,
+            "sourceSpan": 20,
+            "destinationLine": 4,
+            "destinationSpan": 19,
+            "segments": [
+              {
+                "type": "CONTEXT",
+                "lines": [
+                  {
+                    "destination": 4,
+                    "source": 4,
+                    "line": "import { nullable, z } from 'zod';",
+                    "repository": false
+                  },
+                  {
+                    "destination": 5,
+                    "source": 5,
+                    "line": "import { CustomerRatingModal } from './CustomerRateModal';",
+                    "repository": false
+                  },
+                  {
+                    "destination": 6,
+                    "source": 6,
+                    "line": "import { getFid } from 'features/metrics-sender';",
+                    "repository": false
+                  },
+                  {
+                    "destination": 7,
+                    "source": 7,
+                    "line": "",
+                    "repository": false
+                  },
+                  {
+                    "destination": 8,
+                    "source": 8,
+                    "line": "const ratingTypes = z.enum(['rating', 'ces']);",
+                    "repository": false
+                  },
+                  {
+                    "destination": 9,
+                    "source": 9,
+                    "line": "",
+                    "repository": false
+                  }
+                ],
+                "truncated": false
+              },
+              {
+                "type": "REMOVED",
+                "lines": [
+                  {
+                    "destination": 10,
+                    "source": 10,
+                    "line": "// eslint-disable-next-line @typescript-eslint/no-unused-vars",
+                    "repository": false
+                  }
+                ],
+                "truncated": false
+              },
+              {
+                "type": "CONTEXT",
+                "lines": [
+                  {
+                    "destination": 10,
+                    "source": 11,
+                    "line": "const Survey = z.object({",
+                    "repository": false
+                  },
+                  {
+                    "destination": 11,
+                    "source": 12,
+                    "line": "\tid: z.string(),",
+                    "repository": false
+                  }
+                ],
+                "truncated": false
+              },
+              {
+                "type": "REMOVED",
+                "lines": [
+                  {
+                    "destination": 12,
+                    "source": 13,
+                    "line": "\tdescription: z.string(),",
+                    "repository": false
+                  }
+                ],
+                "truncated": false
+              },
+              {
+                "type": "ADDED",
+                "lines": [
+                  {
+                    "destination": 12,
+                    "source": 14,
+                    "line": "\tmessageQuestion: nullable(z.string()),",
+                    "repository": false,
+                    "commentIds": [500036]
+                  }
+                ],
+                "truncated": false
+              },
+              {
+                "type": "CONTEXT",
+                "lines": [
+                  {
+                    "destination": 13,
+                    "source": 14,
+                    "line": "\tview: nullable(z.string()),",
+                    "repository": false
+                  },
+                  {
+                    "destination": 14,
+                    "source": 15,
+                    "line": "\tratingVariant: nullable(ratingTypes),",
+                    "repository": false
+                  },
+                  {
+                    "destination": 15,
+                    "source": 16,
+                    "line": "\tfeatureSwitches: nullable(z.array(z.string())),",
+                    "repository": false
+                  },
+                  {
+                    "destination": 16,
+                    "source": 17,
+                    "line": "\twaitingSeconds: nullable(z.number()),",
+                    "repository": false
+                  },
+                  {
+                    "destination": 17,
+                    "source": 18,
+                    "line": "});",
+                    "repository": false
+                  },
+                  {
+                    "destination": 18,
+                    "source": 19,
+                    "line": "",
+                    "repository": false
+                  },
+                  {
+                    "destination": 19,
+                    "source": 20,
+                    "line": "export type SurveyType = z.infer<typeof Survey>;",
+                    "repository": false
+                  },
+                  {
+                    "destination": 20,
+                    "source": 21,
+                    "line": "",
+                    "repository": false
+                  },
+                  {
+                    "destination": 21,
+                    "source": 22,
+                    "line": "let timeout: NodeJS.Timeout | null = null;",
+                    "repository": false
+                  },
+                  {
+                    "destination": 22,
+                    "source": 23,
+                    "line": "",
+                    "repository": false
+                  }
+                ],
+                "truncated": false
+              }
+            ],
+            "truncated": false
+          }
+        ],
+        "truncated": false,
+        "properties": {
+          "toHash": "e19f982b9d914df1f565b45c22bb7ffbea163b57",
+          "current": true,
+          "fromHash": "a8b0f5c82524fc8a2f9a01370f795df4bd46472b"
+        }
+      }
+    },
+
+    {
+      "id": 5702456,
+      "createdDate": 1748937910450,
+      "user": {
+        "name": "john.doe",
+        "emailAddress": "john.doe@example.com",
+        "active": true,
+        "displayName": "John Doe",
+        "id": 3026,
+        "slug": "john.doe",
+        "type": "NORMAL",
+        "links": {
+          "self": [
+            {
+              "href": "https://git.some-company.se/users/john.doe"
+            }
+          ]
+        }
+      },
+      "action": "COMMENTED",
+      "commentAction": "ADDED",
+      "comment": {
+        "properties": {
+          "repositoryId": 242
+        },
+        "id": 500017,
+        "version": 0,
+        "text": "The PR",
+        "author": {
+          "name": "john.doe",
+          "emailAddress": "john.doe@example.com",
+          "active": true,
+          "displayName": "John Doe",
+          "id": 3026,
+          "slug": "john.doe",
+          "type": "NORMAL",
+          "links": {
+            "self": [
+              {
+                "href": "https://git.some-company.se/users/john.doe"
+              }
+            ]
+          }
+        },
+        "createdDate": 1748937910448,
+        "updatedDate": 1748937910448,
+        "comments": [],
+        "threadResolved": false,
+        "severity": "NORMAL",
+        "state": "OPEN",
+        "permittedOperations": {
+          "editable": false,
+          "transitionable": true,
+          "deletable": false
+        }
+      }
+    },
+    {
+      "id": 5702105,
+      "createdDate": 1748936047491,
+      "user": {
+        "name": "checklistbuddy",
+        "active": true,
+        "displayName": "Checklist Buddy",
+        "emailAddress": null,
+        "id": 3337,
+        "slug": "checklistbuddy",
+        "type": "SERVICE",
+        "links": {
+          "self": [
+            {
+              "href": "https://git.some-company.se/bots/checklistbuddy"
+            }
+          ]
+        }
+      },
+      "action": "COMMENTED",
+      "commentAction": "ADDED",
+      "comment": {
+        "properties": {
+          "repositoryId": 242
+        },
+        "id": 499981,
+        "version": 0,
+        "text": "**[CHECKLISTBUDDY](https://marketplace.atlassian.com/apps/1225571/pull-request-checklist-buddy-for-bitbucket?hosting=datacenter&tab=overview) PR checklist** ✅",
+        "author": {
+          "name": "checklistbuddy",
+          "active": true,
+          "displayName": "Checklist Buddy",
+          "emailAddress": null,
+          "id": 3337,
+          "slug": "checklistbuddy",
+          "type": "SERVICE",
+          "links": {
+            "self": [
+              {
+                "href": "https://git.some-company.se/bots/checklistbuddy"
+              }
+            ]
+          }
+        },
+        "createdDate": 1748936047488,
+        "updatedDate": 1748936047488,
+        "comments": [
+          {
+            "properties": {
+              "repositoryId": 242
+            },
+            "id": 499982,
+            "version": 1,
+            "text": "I have read the [contribution guidelines](https://git.some-company.se/projects/FNX/repos/vessel/browse/CONTRIBUTING.md).",
+            "author": {
+              "name": "checklistbuddy",
+              "active": true,
+              "displayName": "Checklist Buddy",
+              "emailAddress": null,
+              "id": 3337,
+              "slug": "checklistbuddy",
+              "type": "SERVICE",
+              "links": {
+                "self": [
+                  {
+                    "href": "https://git.some-company.se/bots/checklistbuddy"
+                  }
+                ]
+              }
+            },
+            "createdDate": 1748936047511,
+            "updatedDate": 1748936047511,
+            "comments": [],
+            "threadResolved": false,
+            "severity": "BLOCKER",
+            "state": "RESOLVED",
+            "permittedOperations": {
+              "editable": false,
+              "transitionable": true,
+              "deletable": false
+            },
+            "resolvedDate": 1748936049434,
+            "resolver": {
+              "name": "thread.commenter2",
+              "emailAddress": "thread.commenter2@example.com",
+              "active": true,
+              "displayName": "Thread Commenter2",
+              "id": 334,
+              "slug": "thread.commenter2",
+              "type": "NORMAL",
+              "links": {
+                "self": [
+                  {
+                    "href": "https://git.some-company.se/users/thread.commenter2"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "properties": {
+              "repositoryId": 242
+            },
+            "id": 499983,
+            "version": 1,
+            "text": "I acknowledge that that branches will be **directly merged** UNLESS tagged with [DRAFT] in the title.",
+            "author": {
+              "name": "checklistbuddy",
+              "active": true,
+              "displayName": "Checklist Buddy",
+              "emailAddress": null,
+              "id": 3337,
+              "slug": "checklistbuddy",
+              "type": "SERVICE",
+              "links": {
+                "self": [
+                  {
+                    "href": "https://git.some-company.se/bots/checklistbuddy"
+                  }
+                ]
+              }
+            },
+            "createdDate": 1748936047531,
+            "updatedDate": 1748936047531,
+            "comments": [],
+            "threadResolved": false,
+            "severity": "BLOCKER",
+            "state": "RESOLVED",
+            "permittedOperations": {
+              "editable": false,
+              "transitionable": true,
+              "deletable": false
+            },
+            "resolvedDate": 1748936050430,
+            "resolver": {
+              "name": "thread.commenter2",
+              "emailAddress": "thread.commenter2@example.com",
+              "active": true,
+              "displayName": "Thread Commenter2",
+              "id": 334,
+              "slug": "thread.commenter2",
+              "type": "NORMAL",
+              "links": {
+                "self": [
+                  {
+                    "href": "https://git.some-company.se/users/thread.commenter2"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "properties": {
+              "repositoryId": 242
+            },
+            "id": 499984,
+            "version": 1,
+            "text": "I acknowledge that PRs will be **automatically released** into production 36h after they are merged (earliest). EXPLICITLY contact #frontend-developers to prevent that.",
+            "author": {
+              "name": "checklistbuddy",
+              "active": true,
+              "displayName": "Checklist Buddy",
+              "emailAddress": null,
+              "id": 3337,
+              "slug": "checklistbuddy",
+              "type": "SERVICE",
+              "links": {
+                "self": [
+                  {
+                    "href": "https://git.some-company.se/bots/checklistbuddy"
+                  }
+                ]
+              }
+            },
+            "createdDate": 1748936047570,
+            "updatedDate": 1748936047570,
+            "comments": [],
+            "threadResolved": false,
+            "severity": "BLOCKER",
+            "state": "RESOLVED",
+            "permittedOperations": {
+              "editable": false,
+              "transitionable": true,
+              "deletable": false
+            },
+            "resolvedDate": 1748936051019,
+            "resolver": {
+              "name": "thread.commenter2",
+              "emailAddress": "thread.commenter2@example.com",
+              "active": true,
+              "displayName": "Thread Commenter2",
+              "id": 334,
+              "slug": "thread.commenter2",
+              "type": "NORMAL",
+              "links": {
+                "self": [
+                  {
+                    "href": "https://git.some-company.se/users/thread.commenter2"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "properties": {
+              "repositoryId": 242
+            },
+            "id": 499985,
+            "version": 1,
+            "text": "I acknowledge that Vessel's **release cadence** is Tuesday and Thursday midday, EXCEPT for critical bugfixes.",
+            "author": {
+              "name": "checklistbuddy",
+              "active": true,
+              "displayName": "Checklist Buddy",
+              "emailAddress": null,
+              "id": 3337,
+              "slug": "checklistbuddy",
+              "type": "SERVICE",
+              "links": {
+                "self": [
+                  {
+                    "href": "https://git.some-company.se/bots/checklistbuddy"
+                  }
+                ]
+              }
+            },
+            "createdDate": 1748936047593,
+            "updatedDate": 1748936047593,
+            "comments": [],
+            "threadResolved": false,
+            "severity": "BLOCKER",
+            "state": "RESOLVED",
+            "permittedOperations": {
+              "editable": false,
+              "transitionable": true,
+              "deletable": false
+            },
+            "resolvedDate": 1748936051656,
+            "resolver": {
+              "name": "thread.commenter2",
+              "emailAddress": "thread.commenter2@example.com",
+              "active": true,
+              "displayName": "Thread Commenter2",
+              "id": 334,
+              "slug": "thread.commenter2",
+              "type": "NORMAL",
+              "links": {
+                "self": [
+                  {
+                    "href": "https://git.some-company.se/users/thread.commenter2"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "properties": {
+              "repositoryId": 242
+            },
+            "id": 499986,
+            "version": 0,
+            "text": "All done? merge PR with `--squash`",
+            "author": {
+              "name": "checklistbuddy",
+              "active": true,
+              "displayName": "Checklist Buddy",
+              "emailAddress": null,
+              "id": 3337,
+              "slug": "checklistbuddy",
+              "type": "SERVICE",
+              "links": {
+                "self": [
+                  {
+                    "href": "https://git.some-company.se/bots/checklistbuddy"
+                  }
+                ]
+              }
+            },
+            "createdDate": 1748936047634,
+            "updatedDate": 1748936047634,
+            "comments": [],
+            "threadResolved": false,
+            "severity": "NORMAL",
+            "state": "OPEN",
+            "permittedOperations": {
+              "editable": false,
+              "transitionable": true,
+              "deletable": false
+            }
+          }
+        ],
+        "threadResolved": false,
+        "severity": "NORMAL",
+        "state": "OPEN",
+        "permittedOperations": {
+          "editable": false,
+          "transitionable": true,
+          "deletable": false
+        }
+      }
+    },
+    {
+      "id": 5708063,
+      "createdDate": 1749019390241,
+      "user": {
+        "name": "bob.sponge",
+        "emailAddress": "bob.sponge@example.com",
+        "active": true,
+        "displayName": "Bob Sponge",
+        "id": 2469,
+        "slug": "bob.sponge",
+        "type": "NORMAL",
+        "links": {
+          "self": [
+            {
+              "href": "https://git.some-company.se/users/bob.sponge"
+            }
+          ]
+        }
+      },
+      "action": "MERGED",
+      "commit": {
+        "id": "1dd8dae8266e14d1f6be4fa59029e8f33eee0961",
+        "displayId": "1dd8dae8266",
+        "author": {
+          "name": "thread.commenter2",
+          "emailAddress": "thread.commenter2@example.com",
+          "active": true,
+          "displayName": "Thread Commenter2",
+          "id": 334,
+          "slug": "thread.commenter2",
+          "type": "NORMAL",
+          "links": {
+            "self": [
+              {
+                "href": "https://git.some-company.se/users/thread.commenter2"
+              }
+            ]
+          }
+        },
+        "authorTimestamp": 1749019390000,
+        "committer": {
+          "name": "bob.sponge",
+          "emailAddress": "bob.sponge@example.com",
+          "active": true,
+          "displayName": "Bob Sponge",
+          "id": 2469,
+          "slug": "bob.sponge",
+          "type": "NORMAL",
+          "links": {
+            "self": [
+              {
+                "href": "https://git.some-company.se/users/bob.sponge"
+              }
+            ]
+          }
+        },
+        "committerTimestamp": 1749019390000,
+        "message": "Pull request #2436",
+        "parents": [
+          {
+            "id": "20896d97b330555929ba4bcbb704a90468a2be83",
+            "displayId": "20896d97b33",
+            "author": {
+              "name": "Renovate-bot Renovate-bot",
+              "emailAddress": "renovate-bot@example.com"
+            },
+            "authorTimestamp": 1748957445000,
+            "committer": {
+              "name": "Bob Sponge",
+              "emailAddress": "bob.sponge@example.com"
+            },
+            "committerTimestamp": 1748957445000,
+            "message": "Pull request #2437",
+            "parents": [
+              {
+                "id": "0c919309c2abef185694daa6efe1a66f9ec397c7",
+                "displayId": "0c919309c2a"
+              },
+              {
+                "id": "0552ddde7a0cac5f980efae08e688a6109842e2c",
+                "displayId": "0552ddde7a0"
+              }
+            ]
+          },
+          {
+            "id": "e19f982b9d914df1f565b45c22bb7ffbea163b57",
+            "displayId": "e19f982b9d9",
+            "author": {
+              "name": "Thread Commenter2",
+              "emailAddress": "thread.commenter2@example.com"
+            },
+            "authorTimestamp": 1748960854000,
+            "committer": {
+              "name": "Thread Commenter2",
+              "emailAddress": "thread.commenter2@example.com"
+            },
+            "committerTimestamp": 1748960854000,
+            "message": "ECHO-35 add param to get endpoint",
+            "parents": [
+              {
+                "id": "e2defc8fe14e9dad1eeab991832e36ca5149903a",
+                "displayId": "e2defc8fe14"
+              }
+            ]
+          }
+        ],
+        "properties": {
+          "jira-key": ["ECHO-35"]
+        }
+      },
+      "autoMerge": false
+    },
+    {
+      "id": 5708060,
+      "createdDate": 1749019379018,
+      "user": {
+        "name": "bob.sponge",
+        "emailAddress": "bob.sponge@example.com",
+        "active": true,
+        "displayName": "Bob Sponge",
+        "id": 2469,
+        "slug": "bob.sponge",
+        "type": "NORMAL",
+        "links": {
+          "self": [
+            {
+              "href": "https://git.some-company.se/users/bob.sponge"
+            }
+          ]
+        }
+      },
+      "action": "APPROVED"
+    },
+    {
+      "id": 5706535,
+      "createdDate": 1748966913577,
+      "user": {
+        "name": "thread.commenter1",
+        "emailAddress": "thread.commenter1@example.com",
+        "active": true,
+        "displayName": "Thread Commenter1",
+        "id": 1357,
+        "slug": "thread.commenter1",
+        "type": "NORMAL",
+        "links": {
+          "self": [
+            {
+              "href": "https://git.some-company.se/users/thread.commenter1"
+            }
+          ]
+        }
+      },
+      "action": "APPROVED"
+    },
+    {
+      "id": 5702103,
+      "createdDate": 1748936047349,
+      "user": {
+        "name": "pr.author",
+        "emailAddress": "pr.author@example.com",
+        "active": true,
+        "displayName": "Pr Author",
+        "id": 334,
+        "slug": "pr.author",
+        "type": "NORMAL",
+        "links": {
+          "self": [
+            {
+              "href": "https://git.some-company.se/users/pr.author"
+            }
+          ]
+        }
+      },
+      "action": "OPENED"
+    }
+  ],
+  "start": 0
+}
