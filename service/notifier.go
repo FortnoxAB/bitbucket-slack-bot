@@ -163,7 +163,7 @@ func prCommentAdded(
 					return err
 				}
 
-				commentUrl := fmt.Sprintf("%s/projects/%s/repos/%s/pull-requests/%d/overview?commentId=%d/",
+				commentUrl := fmt.Sprintf("%s/projects/%s/repos/%s/pull-requests/%d/overview?commentId=%d",
 					b.BitbucketURL,
 					b.PullRequest.ToRef.Repository.Project.Key,
 					b.PullRequest.ToRef.Repository.Slug,
