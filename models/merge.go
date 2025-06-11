@@ -2,7 +2,7 @@ package models
 
 /*example
 TODO implement this
-curl -su user https://git/rest/api/1.0/projects/FNX/repos/bank-transactions-fetcher/pull-requests/136/merge
+curl https://git/rest/api/1.0/projects/FNX/repos/bank-transactions-fetcher/pull-requests/136/merge
 
 {
   "canMerge": false,
@@ -18,7 +18,6 @@ curl -su user https://git/rest/api/1.0/projects/FNX/repos/bank-transactions-fetc
 
 */
 
-//
 type Merge struct {
 	CanMerge   bool   `json:"canMerge"`
 	Conflicted bool   `json:"conflicted"`

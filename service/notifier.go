@@ -82,12 +82,17 @@ func (n *Notifier) ProcessWebhook(b *models.WebhookBody) error {
 		}
 		return err
 	case "pr:comment:added":
-		return n.prCommentAdded(b)
+		return prCommentAdded(n.Slack.GetUserByEmail, n.Slack.PostMessage, n.Bitbucket.GetPrActivity, b)
 	}
 	return nil
 }
 
-func (n *Notifier) prCommentAdded(b *models.WebhookBody) error {
+func prCommentAdded(
+	slackGetUserByEmail func(email string) (*slack.User, error),
+	slackPostMessage func(channelID string, options ...slack.MsgOption) (string, string, error),
+	bitbucketGetPrActivity func(project string, repoSlug string, prID int) (models.Activities, error),
+	b *models.WebhookBody,
+) error {
 	// If mention. Also notify the person mentioned
 	matches := rex.FindAllStringSubmatch(b.Comment.Text, -1)
 	for _, match := range matches {
@@ -106,33 +111,85 @@ func (n *Notifier) prCommentAdded(b *models.WebhookBody) error {
 		}
 
 		// TODO make this domain configurable
-		user, err := n.Slack.GetUserByEmail(mentionedUsername + "@fortnox.se")
+		user, err := slackGetUserByEmail(mentionedUsername + "@fortnox.se")
 		if err != nil {
 			return err
 		}
-		_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(b.Comment.Text, "mentioned you in comment")...)
+		_, _, err = slackPostMessage(user.ID, b.FormatMessage(b.Comment.Text, "mentioned you in comment")...)
 		if err != nil {
 			return err
 		}
 	}
 
+	// Notify PR author
 	if b.Actor.Name == b.PullRequest.Author.User.Name { // dont notify yourself
 		logrus.Debug("Skip notifying author is same as actor")
 		return nil
 	}
-	user, err := n.Slack.GetUserByEmail(b.PullRequest.Author.User.EmailAddress)
+	user, err := slackGetUserByEmail(b.PullRequest.Author.User.EmailAddress)
 	if err != nil {
 		return err
 	}
-	_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(b.Comment.Text, "commented")...)
-	return err
+	_, _, err = slackPostMessage(user.ID, b.FormatMessage(b.Comment.Text, "commented")...)
+	if err != nil {
+		return err
+	}
+
+	// Notify comment thread
+	threads := []models.Comment{}
+	activities, err := bitbucketGetPrActivity(b.ID())
+	if err != nil {
+		return err
+	}
+	for _, v := range activities.Values {
+		if v.Action == "COMMENTED" {
+			threads = append(threads, v.Comment)
+		}
+	}
+	logrus.Debug("Number of comment threads: ", len(threads))
+
+	for _, thread := range threads {
+		authorEmails := map[string]bool{}
+		found := false
+		traverseThread(&thread, authorEmails, b.Comment.ID, &found)
+		if found {
+			delete(authorEmails, b.Comment.Author.EmailAddress)  // never notify the comment author
+			delete(authorEmails, b.PullRequest.Author.User.Name) // never notify the PR author twice (already done before)
+			logrus.Debug("Authors: " + fmt.Sprint(len(authorEmails)))
+
+			for a := range authorEmails {
+				user, err := slackGetUserByEmail(a)
+				if err != nil {
+					return err
+				}
+
+				commentUrl := fmt.Sprintf("%s/projects/%s/repos/%s/pull-requests/%d/overview?commentId=%d/",
+					b.BitbucketURL,
+					b.PullRequest.ToRef.Repository.Project.Key,
+					b.PullRequest.ToRef.Repository.Slug,
+					b.PullRequest.ID,
+					b.Comment.ID,
+				)
+				message := fmt.Sprintf("\n👉 %s\n\n%s", commentUrl, b.Comment.Text)
+				_, _, err = slackPostMessage(user.ID, b.FormatMessage(message, "commented on thread")...)
+				if err != nil {
+					return err
+				}
+			}
+			break
+		}
+	}
+	return nil
 }
 
-func (n *Notifier) getIMByEmail(email string) (string, error) {
-	user, err := n.Slack.GetUserByEmail(email)
-	if err != nil {
-		return "", err
+func traverseThread(c *models.Comment, authors map[string]bool, commentId int, found *bool) {
+	logrus.Debug("Comment by '" + c.Author.DisplayName + "' | ID: " + fmt.Sprint(c.ID))
+	authors[c.Author.EmailAddress] = true
+	if c.ID == commentId {
+		*found = true
 	}
-	_, _, channelID, err := n.Slack.OpenIMChannel(user.ID)
-	return channelID, err
+
+	for _, child := range c.Comments {
+		traverseThread(child, authors, commentId, found)
+	}
 }

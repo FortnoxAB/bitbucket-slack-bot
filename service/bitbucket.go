@@ -35,6 +35,16 @@ func (b *Bitbucket) CanMerge(project, repoSlug string, prID int) (models.Merge, 
 	return merge, err
 }
 
+/** Returns activity data for a PR */
+func (b *Bitbucket) GetPrActivity(project string, repoSlug string, prID int) (models.Activities, error) {
+	u := fmt.Sprintf("rest/api/1.0/projects/%s/repos/%s/pull-requests/%d/activities", project, repoSlug, prID)
+	activities := models.Activities{}
+	err := b.do("GET", u, nil, &activities)
+
+	return activities, err
+
+}
+
 type ErrorResponse struct {
 	Errors []struct {
 		Context       interface{} `json:"context"`

@@ -59,7 +59,7 @@ type Comment struct {
 	Author      User          `json:"author"`
 	CreatedDate int64         `json:"createdDate"`
 	UpdatedDate int64         `json:"updatedDate"`
-	Comments    []interface{} `json:"comments"`
+	Comments    []*Comment    `json:"comments"`
 	Tasks       []interface{} `json:"tasks"`
 }
 
