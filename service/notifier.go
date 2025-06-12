@@ -124,15 +124,16 @@ func prCommentAdded(
 	// Notify PR author
 	if b.Actor.Name == b.PullRequest.Author.User.Name { // dont notify yourself
 		logrus.Debug("Skip notifying author is same as actor")
-		return nil
-	}
-	user, err := slackGetUserByEmail(b.PullRequest.Author.User.EmailAddress)
-	if err != nil {
-		return err
-	}
-	_, _, err = slackPostMessage(user.ID, b.FormatMessage(b.Comment.Text, "commented")...)
-	if err != nil {
-		return err
+	} else {
+		user, err := slackGetUserByEmail(b.PullRequest.Author.User.EmailAddress)
+		if err != nil {
+			logrus.Printf("Skip notifying, slack user %s not found", b.PullRequest.Author.User.EmailAddress)
+		} else {
+			_, _, err = slackPostMessage(user.ID, b.FormatMessage(b.Comment.Text, "commented")...)
+			if err != nil {
+				logrus.Printf("Failed to notify user %s with slack id: %s ", b.PullRequest.Author.User.EmailAddress, user.ID)
+			}
+		}
 	}
 
 	// Notify comment thread
@@ -163,7 +164,7 @@ func prCommentAdded(
 					return err
 				}
 
-				commentUrl := fmt.Sprintf("%s/projects/%s/repos/%s/pull-requests/%d/overview?commentId=%d/",
+				commentUrl := fmt.Sprintf("%s/projects/%s/repos/%s/pull-requests/%d/overview?commentId=%d",
 					b.BitbucketURL,
 					b.PullRequest.ToRef.Repository.Project.Key,
 					b.PullRequest.ToRef.Repository.Slug,
