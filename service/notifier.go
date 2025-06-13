@@ -37,7 +37,7 @@ func (n *Notifier) ProcessWebhook(b *models.WebhookBody) error {
 			}
 			_, _, err = n.Slack.PostMessage(u.ID, b.FormatMessage("is waiting for your review.", "opened pull request")...)
 			if err != nil {
-				logrus.Error(err)
+				logrus.Error(fmt.Errorf("error PostMessage to channelID: %s err: %w", u.ID, err))
 				return nil
 			}
 		}
@@ -50,7 +50,7 @@ func (n *Notifier) ProcessWebhook(b *models.WebhookBody) error {
 			}
 			_, _, err = n.Slack.PostMessage(u.ID, b.FormatMessage(fmt.Sprintf("has %d/%d approvals", b.ApprovedCount(), len(b.PullRequest.Reviewers)), "added you as reviewer")...)
 			if err != nil {
-				logrus.Error(err)
+				logrus.Error(fmt.Errorf("error PostMessage to channelID: %s err: %w", u.ID, err))
 				return nil
 			}
 		}
@@ -58,29 +58,35 @@ func (n *Notifier) ProcessWebhook(b *models.WebhookBody) error {
 	case "pr:reviewer:needs_work":
 		user, err := n.Slack.GetUserByEmail(b.PullRequest.Author.User.EmailAddress)
 		if err != nil {
-			return err
+			return fmt.Errorf("error fetching %s from slack: %s", b.PullRequest.Author.User.EmailAddress, err)
 		}
 		_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(fmt.Sprintf("has %d/%d approvals", b.ApprovedCount(), len(b.PullRequest.Reviewers)), "said needs work")...)
-		return err
+		if err != nil {
+			return fmt.Errorf("error PostMessage to channelID: %s err: %w", user.ID, err)
+		}
+		return nil
 	// message to AUTHOR if it can be merged
 	case "pr:reviewer:approved":
 		merge, err := n.Bitbucket.CanMerge(b.ID())
 		if err != nil {
-			logrus.Error(err)
+			logrus.Error(fmt.Errorf("error checking canMerge: %w", err))
 		}
 		if !merge.CanMerge && err == nil {
 			return nil
 		}
 		user, err := n.Slack.GetUserByEmail(b.PullRequest.Author.User.EmailAddress)
 		if err != nil {
-			return err
+			return fmt.Errorf("error fetching %s from slack: %s", b.PullRequest.Author.User.EmailAddress, err)
 		}
 		if merge.CanMerge {
 			_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(fmt.Sprintf("has %d/%d approvals and can be merged now.", b.ApprovedCount(), len(b.PullRequest.Reviewers)), "approved")...)
 		} else {
 			_, _, err = n.Slack.PostMessage(user.ID, b.FormatMessage(fmt.Sprintf("has %d/%d approvals", b.ApprovedCount(), len(b.PullRequest.Reviewers)), "approved")...)
 		}
-		return err
+		if err != nil {
+			return fmt.Errorf("error PostMessage to channelID: %s err: %w", user.ID, err)
+		}
+		return nil
 	case "pr:comment:added":
 		return prCommentAdded(n.Slack.GetUserByEmail, n.Slack.PostMessage, n.Bitbucket.GetPrActivity, b)
 	}
@@ -113,11 +119,11 @@ func prCommentAdded(
 		// TODO make this domain configurable
 		user, err := slackGetUserByEmail(mentionedUsername + "@fortnox.se")
 		if err != nil {
-			return err
+			return fmt.Errorf("error fetching slackGetUserByEmail: %s %w", mentionedUsername+"@fortnox.se", err)
 		}
 		_, _, err = slackPostMessage(user.ID, b.FormatMessage(b.Comment.Text, "mentioned you in comment")...)
 		if err != nil {
-			return err
+			return fmt.Errorf("error slackPostMessage to channelID: %s err: %w", user.ID, err)
 		}
 	}
 
@@ -127,11 +133,11 @@ func prCommentAdded(
 	} else {
 		user, err := slackGetUserByEmail(b.PullRequest.Author.User.EmailAddress)
 		if err != nil {
-			logrus.Printf("Skip notifying, slack user %s not found", b.PullRequest.Author.User.EmailAddress)
+			logrus.Warnf("Skip notifying, slack user %s not found", b.PullRequest.Author.User.EmailAddress)
 		} else {
 			_, _, err = slackPostMessage(user.ID, b.FormatMessage(b.Comment.Text, "commented")...)
 			if err != nil {
-				logrus.Printf("Failed to notify user %s with slack id: %s ", b.PullRequest.Author.User.EmailAddress, user.ID)
+				logrus.Warnf("Failed to notify user %s with slack id: %s ", b.PullRequest.Author.User.EmailAddress, user.ID)
 			}
 		}
 	}
@@ -140,7 +146,7 @@ func prCommentAdded(
 	threads := []models.Comment{}
 	activities, err := bitbucketGetPrActivity(b.ID())
 	if err != nil {
-		return err
+		return fmt.Errorf("error bitbucketGetPrActivity for: %s err: %w", b.GetPrURL(), err)
 	}
 	for _, v := range activities.Values {
 		if v.Action == "COMMENTED" {
@@ -161,7 +167,7 @@ func prCommentAdded(
 			for a := range authorEmails {
 				user, err := slackGetUserByEmail(a)
 				if err != nil {
-					return err
+					return fmt.Errorf("error fetching slackGetUserByEmail: %s %w", a, err)
 				}
 
 				commentUrl := fmt.Sprintf("%s/projects/%s/repos/%s/pull-requests/%d/overview?commentId=%d",
@@ -174,7 +180,7 @@ func prCommentAdded(
 				message := fmt.Sprintf("\n👉 %s\n\n%s", commentUrl, b.Comment.Text)
 				_, _, err = slackPostMessage(user.ID, b.FormatMessage(message, "commented on thread")...)
 				if err != nil {
-					return err
+					return fmt.Errorf("error slackPostMessage to channelID: %s err: %w", user.ID, err)
 				}
 			}
 			break

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"strings"
 	"time"
 
@@ -26,7 +27,7 @@ func main() {
 
 	_, err := s.AuthTest()
 	if err != nil {
-		logrus.Error(err)
+		logrus.Error(fmt.Errorf("error from AuthTest: %w", err))
 		return
 	}
 
@@ -72,7 +73,6 @@ func mentionedMe(msg string) bool {
 
 	uid := slackInfo.User.ID
 	if strings.Contains(msg, "<@"+uid+">") {
-		logrus.Info("return true")
 		return true
 	}
 	return false
